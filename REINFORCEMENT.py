@@ -49,3 +49,11 @@ for e in range(episodes+1):
     if e % 50 == 0:
         print("Episode {} avg steps: {}".format(e, score/50))
         score = 0
+
+dict = {'Score': ep_memory}
+df = pd.DataFrame(dict)
+df.to_csv('Ep_score.csv')
+
+x = range(1, episodes+1)
+plt.scatter(x, df['Score'])
+plt.show()
