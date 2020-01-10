@@ -5,8 +5,8 @@ import os
 import numpy as np
 import pandas
 from collections import defaultdict, namedtuple
-import monitor
-from logger import read_json, read_csv
+from plotting import monitor
+from plotting.logger import read_json, read_csv
 
 def smooth(y, radius, mode='two_sided', valid_only=False):
     '''
