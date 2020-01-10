@@ -9,6 +9,7 @@ model.add(tf.keras.layers.Dense(64, input_dim = 4, activation='relu'))
 model.add(tf.keras.layers.Dense(2, activation = "softmax"))
 model.build()
 optimizer = tf.keras.optimizers.Adam(learning_rate = 0.001)
+
 env = gym.make('CartPole-v1')
 episodes = 10000
 steps = 1000
@@ -26,7 +27,6 @@ for e in range(episodes):
     for step in range(steps):
         s = s.reshape([1, 4])
         act_prob = model(s)
-
         act = np.random.choice(range(env.action_space.n), p=act_prob.numpy()[0])
         next_s, r, done, _ = env.step(act)
         hist.append((s, act, r))
