@@ -67,10 +67,13 @@ for run in range(runs):
             if (episode+1) % 100 == 0:
                 print("Episode {} avg rewards: {}".format(episode+1, np.mean(scores[-100:])))
 
-    dict = {'Score': scores, 'Step': steps}
+    dict = {'r': scores, 'l': steps}
     df = pd.DataFrame(dict)
-    file_name = 'Reinforce_steps_diff_lr_'+str(run+1)+'_.csv'
-    df.to_csv(file_name)
+    #saving the logged rewards and steps in the log_dir directory
+    log_dir = 'logs/CartPole-v1/lr/lr=0.01-'+str(run+1)
+    os.makedirs(log_dir, exist_ok =True)
+    file_name = 'monitor.csv'
+    df.to_csv(log_dir+'/'+file_name)
 
 x = np.cumsum(df['Step'])
 plt.scatter(x, df['Score'])
