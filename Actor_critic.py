@@ -4,6 +4,8 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import pandas as pd
 
+#check out the codes in stable basline using tf 1.x for a2c or any other compact 1.x codes for a2c
+
 actor_model = tf.keras.Sequential()
 actor_model.add(tf.keras.layers.Dense(64, input_shape = [None, 4], activation = 'relu'))
 actor_model.add(tf.keras.layers.Dense(2, activation = 'softmax'))
@@ -34,7 +36,7 @@ for episode in range(episodes):
     next_states = []
     rewards = []
     dones = []
-    done = False
+    #done = False
     for step in range(steps):
         s = s.reshape([1, 4])
         actor_out = actor_model(s)
@@ -59,10 +61,14 @@ for episode in range(episodes):
             for reward in rewards[::-1]:
                 reward_sum = reward + gamma * reward_sum
                 discounted_rewards.append(reward_sum)
+
             discounted_rewards.reverse()
             #^^got discounted rewards. have to think out incorporating in under the gradienttape.
             discounted_rewards_c = tf.convert_to_tensor(np.array(discounted_rewards)[:, None], dtype=tf.float32)
 
+            #advantage calculation
+            critic_out = critic_model(tf.convert_to_tensor(np.vstack(states), dtype=tf.float32))
+            advntg = discounted_rewards - critic_out
             #updating critic parameters
             critic_variables = critic_model.trainable_variables
             with tf.GradientTape() as critic_tape:
@@ -77,7 +83,23 @@ for episode in range(episodes):
             with tf.GradientTape() as actor_tape:
                 actor_tape.watch(actor_variables)
                 actor_out = actor_model(tf.convert_to_tensor(np.vstack(states), dtype = tf.float32))
-                #assigning the actor out probabilities according to the actions taken
-        if done:
+                #assigning the actor_out probabilities according to the actions taken for loss calculation
+                #have to clarify the matrix size below.
 
+                #print(actor_out.numpy().shape)
+                a = actor_out
+                #print(tf.reshape(a, [-1]).numpy().shape)
+                actProbs = tf.gather(tf.reshape(actor_out, [-1]), act)
+                actor_loss = -tf.reduce_mean(tf.math.log(actProbs) * advntg)
+                #add entropy loss^^
+            actor_grads = actor_tape.gradient(actor_loss, actor_variables)
+            actor_optimizer.apply_gradients(zip(actor_grads, actor_variables))
+        if done:
+            scores.append(ep_score)
+            #print out episode last 50 episodes average reward. And if possible use tensorboard.
             break
+
+    if (episode+1)%50 == 0:
+        print("Episode: {} Average Reward: {}".format(episode+1, np.mean(scores[-50:])))
+
+
