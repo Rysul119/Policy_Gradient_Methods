@@ -75,6 +75,6 @@ for run in range(runs):
     file_name = 'monitor.csv'
     df.to_csv(log_dir+'/'+file_name)
 
-x = np.cumsum(df['Step'])
-plt.scatter(x, df['Score'])
+x = np.cumsum(df['l'])
+plt.scatter(x, df['r'])
 plt.show()
