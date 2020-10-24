@@ -4,8 +4,7 @@ import tensorflow as tf
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import os
-from timeit import default_timer as timer
+
 
 #setting misc. properties
 tf.keras.backend.set_floatx('float64')
@@ -70,11 +69,6 @@ for episode in range(episodes):
         state = next_state
 
         if len(states_batch) >= upd or done: #implement upd later
-            '''batch = states_batch[0]
-            for elem in states_batch[1:]:
-                batch = np.append(batch, elem, axis = 0)
-
-            print(batch)'''
             states_arr = np.array(states_batch)
             actions_arr = np.array(actions_batch)
             rewards_arr = np.array(rewards_batch)
@@ -130,7 +124,6 @@ for episode in range(episodes):
                     #print(v_pred.shape, td_targets.shape)
                     td_targets = tf.stop_gradient(td_targets)
                     assert v_pred.shape == td_targets.shape
-                    #value_loss = tf.keras.losses.MeanSquaredError(td_targets, v_pred)
                     value_loss = tf.reduce_mean(tf.square(td_targets - v_pred)) * 0.5
                 value_grads = value_tape.gradient(value_loss, value_model.trainable_variables)
                 #print(value_grads)

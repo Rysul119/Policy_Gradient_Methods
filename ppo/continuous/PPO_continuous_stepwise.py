@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import gym
 import numpy as np
 from timeit import default_timer as timer
-import os
+
 import pybulletgym
 import pybullet_envs
 
@@ -20,7 +20,6 @@ upd = 1024
 epochs = 15
 clip_coeff = 0.1
 lamb = 0.95
-#max_episodes = 3000
 tot_steps = 2000000
 
 
@@ -219,4 +218,3 @@ plt.scatter(x, df['r'], s = 5)
 plt.xlabel('Steps')
 plt.ylabel('Episodic Score')
 plt.show()
-

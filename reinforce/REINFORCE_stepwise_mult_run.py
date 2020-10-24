@@ -3,8 +3,8 @@ import gym
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import pandas as pd
-
-
+import os
+ 
 
 #episodes = 5000
 tot_steps = 1000000

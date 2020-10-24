@@ -84,11 +84,6 @@ for policy_lr in lrs:
             state = next_state
 
             if len(states_batch) >= upd or done:  # implement upd later
-                '''batch = states_batch[0]
-                for elem in states_batch[1:]:
-                    batch = np.append(batch, elem, axis = 0)
-        
-                print(batch)'''
                 states_arr = np.array(states_batch)
                 actions_arr = np.array(actions_batch)
                 rewards_arr = np.array(rewards_batch)
