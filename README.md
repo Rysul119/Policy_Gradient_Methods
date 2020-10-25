@@ -1,6 +1,10 @@
-# Policy Gradient Methods for Reinforcement Learning using TF2
-1. REINFORCE- http://www-anw.cs.umass.edu/~barto/courses/cs687/williams92simple.pdf<br/>
-<img src = "REINFORCE_training_curve.png">
-<br/>Trained on learning rate 0.0001 and discountfactor 0.98
-<br/><img src = "REINFORCE_multiple_training_runs.png">
-<br/>Trained for 12 different seeds and averaged the rewards for the steps with shades as the variances.
+# Policy Gradient Methods
+
+This repository contains implementation of numerous state-of-the-art policy gradient methods to perform Reinforcement Learning using [tensorflow 2.x](https://www.tensorflow.org/).
+
+### Implemented Algorithms
+ - REINFORCE [paper link]( http://www-anw.cs.umass.edu/~barto/courses/cs687/williams92simple.pdf)
+ - Actor Critic
+ - Advantage Actor Critic [paper link](https://arxiv.org/pdf/1602.01783.pdf)
+ - Trust Region Policy Optimization [paper link](https://arxiv.org/pdf/1502.05477.pdf)
+ - Proximal Policy Optimization [paper link](https://arxiv.org/pdf/1707.06347.pdf)
